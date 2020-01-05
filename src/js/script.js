@@ -52,16 +52,70 @@
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
 
-  const app = {
-    init: function(){
+  class Product{ //Tworzenie klasy, która zawiera konstruktor wyświetlający wiadomość w konsoli//
+    constructor(id, data){
+      const thisProduct = this;
+	  
+	  thisProduct.id = id;
+	  thisProduct.data = data;
+	  
+	  thisProduct.renderInMenu();
+	  
+      console.log('new Product:', thisProduct);
+    }
+	
+	renderInMenu(){
+		const thisProduct = this;
+		
+		/*generate HTML based on template */
+		const generratedHTML = templates.menuProduct(thisProduct.data);
+		
+		/*create element using utils.createElementFromHTML */
+		thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+		
+		/*find menu container */
+		const menuContainer = document.querySelector(select.containerOf.menu);
+		
+		/* add element to menu */
+		menuContainer.appendChild(thisProduct.element);
+	}
+	
+  }
+  const app = { //Tworzenie pierwszej instancji klasy Product. Metoda obiektu app będzie tworzyć instancje klasy Product//
+    initMenu: function(){
+      const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia//
+      console.log('thisApp.data:', thisApp.data); //-||-//
+      
+      const testProduct = new Product();
+      console.log('testProduct:', testProduct);
+
+      //const thisApp = this;
+      //console.log('thisApp.data:', thisApp.data);
+      //for(let productData in thisApp.data.products){
+      //  new Product(productData, thisApp.data.products[productData]);
+        
+      }
+    },
+    
+	initData: function(){ //Instancja dla każdego produktu. Aplikacja ma korzystać z dataSource w pliku data.js jako źródła danych, ale w przyszłości dane będą wczytywane z serwera. Metoda app.initData w przyszłości pozwoli zmienić sposób pobierania danych//
+      const thisApp = this; //-||-//
+  
+      thisApp.data = dataSource; //-||-//
+    },
+    
+	init: function(){
       const thisApp = this;
       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
+
+      thisApp.initData(); //Instancja dla każdego produktu//
+      thisApp.initMenu();
     },
   };
+  
 
   app.init();
 }
