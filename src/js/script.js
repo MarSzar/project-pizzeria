@@ -88,10 +88,10 @@
       const thisProduct = this;
 
       /* find the clickable trigger (the element that should react to clicking) */
-      const clickedTrigger = thisProduct.accordionTrigger;
+      const clickedTrigger = thisProduct.element;
 
       /* START: click event listener to trigger */
-      thisProduct.accordionTrigger.addEventListener('click', function(event) {
+      clickedTrigger.addEventListener('click', function(event) {
         /* prevent default action for event */
         event.preventDefault();
         /* toggle active class on element of thisProduct */
@@ -110,7 +110,7 @@
         /* END LOOP: for each active product */
         }
       /* END: click event listener to trigger */
-      }
+      });
     }
 
     initMenu() {
@@ -145,6 +145,6 @@
     }
   }
 
-  const temp = new Product();
-  console.log('TCL: Product -> temp', temp);
+  new Product();
+
 }
