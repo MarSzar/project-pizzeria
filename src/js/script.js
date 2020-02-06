@@ -55,36 +55,36 @@
   };
 
   class Product {
-    //Tworzenie klasy, która zawiera konstruktor wyświetlający wiadomość w konsoli//
+    //Tworzenie klasy, która zawiera konstruktor wyświetlający wiadomość w konsoli
     constructor(id, data) {
       const thisProduct = this;
 
       thisProduct.id = id;
       thisProduct.data = data;
 
-      thisProduct.renderInMenu();
-      thisProduct.initAccordion();
+      thisProduct.renderInMenu(); //wykonanie metody renderInMenu
+      thisProduct.initAccordion(); //wykonanie metody initAccordion
 
       console.log('new Product:', thisProduct);
     }
 
-    renderInMenu() {
+    renderInMenu() { //metoda, która tworzy (renderuje) nowy kod na stronie
       const thisProduct = this;
 
       /*generate HTML based on template */
-      const generatedHTML = templates.menuProduct(thisProduct.data);
+      const generatedHTML = templates.menuProduct(thisProduct.data); //HTML jest tworzony przy użyciu Handlebars (templates) na podstawie argumentów z menuProducts(Select)
 
       /*create element using utils.createElementFromHTML */
-      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML); //funkcja createDOMfromHTML znajduje sie w utils w function.js
 
       /*find menu container */
-      const menuContainer = document.querySelector(select.containerOf.menu);
+      const menuContainer = document.querySelector(select.containerOf.menu); //stała, w której jest kontener menu
 
       /* add element to menu */
-      menuContainer.appendChild(thisProduct.element);
+      menuContainer.appendChild(thisProduct.element); //funkcja appendChild dodaje wartość thisProduct.element na koniec rodzica, którym jest menuContainer
     }
 
-    initAccordion() {
+    initAccordion() { //metoda, która tworzy akordeon
       const thisProduct = this;
 
       /* find the clickable trigger (the element that should react to clicking) */
@@ -112,27 +112,26 @@
       /* END: click event listener to trigger */
       });
     }
+  }
 
-    initMenu() {
-      const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia//
-      console.log('thisApp.data:', thisApp.data); //-||-//
+    const app = {
+      initMenu: function() {
+        const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia. thisApp pobiera dane z pliku data.js
+        console.log('thisApp.data:', thisApp.data); //-||-//
+  
+        for(let productData in thisApp.data.products){ //pętla iterująca po products w pliku data
+          new Product(productData, thisApp.data.products[productData]); //dodanie instacji dla każdego produktu wraz z argumentami
+        }
+      },
 
-      const testProduct = new Product();
-      console.log('testProduct:', testProduct);
+    initData: function () { //metoda, która pobiera dane z innych źródeł
+      //Instancja dla każdego produktu. Aplikacja ma korzystać z dataSource w pliku data.js jako źródła danych, ale w przyszłości dane będą wczytywane z serwera. Metoda app.initData w przyszłości pozwoli zmienić sposób pobierania danych
+      const thisApp = this; //-||-
 
-      for(let productData in thisApp.data.products){
-        new Product(productData, thisApp.data.products[productData]);
-      }
-    }
+      thisApp.data = dataSource; //-||- dataSource - stała zadeklarowana w data.js, w której są produkty na pizze
+    },
 
-    initData() {
-      //Instancja dla każdego produktu. Aplikacja ma korzystać z dataSource w pliku data.js jako źródła danych, ale w przyszłości dane będą wczytywane z serwera. Metoda app.initData w przyszłości pozwoli zmienić sposób pobierania danych//
-      const thisApp = this; //-||-//
-
-      thisApp.data = dataSource; //-||-//
-    }
-
-    init() {
+    init: function()  {
       const thisApp = this;
       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
@@ -140,11 +139,9 @@
       console.log('settings:', settings);
       console.log('templates:', templates);
 
-      thisApp.initData(); //Instancja dla każdego produktu//
-      thisApp.initMenu();
+      thisApp.initData(); //Instancja dla każdego produktu (wykonanie metody initData)
+      thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
     }
-  }
-
-  new Product();
-
+  };
+  app.init();
 }
