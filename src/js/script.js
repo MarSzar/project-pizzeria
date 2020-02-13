@@ -165,7 +165,7 @@
       //(dla każdego params i dla każdego options (pętli, która jest w pętli) modyfikuje cenę price (jeśli sa spełnione odpowiednie warunki))
       /* START LOOP: for each paramId in thisProduct.data.params */ //pętla, która iteruje po wszystkich elementach params
       for (let paramId in thisProduct.data.params) {
-        /* save the element in thisProduct.data.params with key paramId as const param */
+        /* save the element in thisProduct.data.params with key paramId as const param */ //wyciągam z tablicy wartość klucza za pomocą paramId
         const param = thisProduct.data.params[paramId];
         
         /* START LOOP: for each optionId in param.options */  //pętla w głównej pętli, która iteruje po wszystkich opcjach danego parametru
@@ -173,7 +173,7 @@
           /* save the element in param.options with key optionId as const option */
           const option = param.options[optionId];
           /* START IF: if option is selected and option is not default */ //jeśli jest zaznaczona opcja, która nie jest domyślna, to...(-->178)   //jeśli mamy obiekt option, który ma właściwość default równą false, to wynikiem !option.default będzie prawda. Jeśli ten obiekt nie ma takiej właściwości, to samo wyrażenie będzie również prawdziwe, ponieważ !undefined jest truthy
-          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1; ///spr.czy w paramId jaki indeks ma opcja optionId
           if(optionSelected && !option.default){
             /* add price of option to variable price */ //cena produktu musi się zwiększyć o cenę tej opcji 
             price = price + option.price;
@@ -191,7 +191,7 @@
       /* END LOOP: for each paramId in thisProduct.data.params */
       }
       /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
-      thisProduct.priceElem.innerHTML = thisProduct.price;
+      thisProduct.priceElem.innerHTML = price;
     }
   }
 
