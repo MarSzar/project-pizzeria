@@ -195,47 +195,44 @@
           }
           
           /* END LOOP: for each optionId in param.options */
-        }
-
-
-        /* create const with chosen products images that have paramId and optionId -  stworzenie stałej const, w której zapisane będą wyszukane elementy */ //wszystkie obrazki dla tej opcji, to wszystkie elementy wyszukane w thisProduct.imageWrapper, które pasują do selektora, składającego się z kropki, klucza parameru, myślnika, klucza opcji.
-          const activeImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
         
-        /* START LOOP: for each optionId in param.options */ //blok if/else, którego warunek sprawdza tylko, czy opcja została zaznaczona
-        for (let optionId in param.option) {
+
+
+          /* create const with chosen products images that have paramId and optionId -  stworzenie stałej const, w której zapisane będą wyszukane elementy */ //wszystkie obrazki dla tej opcji, to wszystkie elementy wyszukane w thisProduct.imageWrapper, które pasują do selektora, składającego się z kropki, klucza parameru, myślnika, klucza opcji.
+          const activeImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
               
-        /* START IF: if product is selected and have image - jeśli opcja jest zaznaczona, to wszystkie obrazki dla tej opcji powinny otrzymać klasę zapisaną w classNames.menuProduct.imageVisible */
-        if (optionSelected && activeImage) {
+          /* START IF: if product is selected and have image - jeśli opcja jest zaznaczona, to wszystkie obrazki dla tej opcji powinny otrzymać klasę zapisaną w classNames.menuProduct.imageVisible */
+          if (optionSelected && activeImage) {
           
-          /* add class 'active' for image - dla każdego z tych elementów ma być dodana (w bloku if) odpowiednia klasa */
-          activeImage.classList.add(classNames.menuProduct.imageVisible);
+            /* add class 'active' for image - dla każdego z tych elementów ma być dodana (w bloku if) odpowiednia klasa */
+            activeImage.classList.add(classNames.menuProduct.imageVisible);
           
           /* END IF: if option is selected and option is not default */
           }
-          
+            
           /* START ELSE: when product is not selected - w przeciwnym razie, wszystkie obrazki dla tej opcji powinny stracić klasę zapisaną w classNames.menuProduct.imageVisible*/          
           else {
           
             /* but have image - pętla iterująca po znalezionych elementach */
             if (activeImage) {
-          
-          /* remove class 'active' - dla każdego z tych elementów ma być usunięta (w bloku else) odpowiednia klasa */
-          activeImage.classList.remove(classNames.menuProduct.imageVisible);
+        
+              /* remove class 'active' - dla każdego z tych elementów ma być usunięta (w bloku else) odpowiednia klasa */
+              activeImage.classList.remove(classNames.menuProduct.imageVisible);
 
-          /* END IF: if product have image */
-          }
-          
+              /* END IF: if product have image */
+            }
+                 
           /* END ELSE: if option is not selected and option is default*/
+          }
+
+          /* END LOOP: for each paramId in thisProduct.data.params */
         }
-
-      /* END LOOP: for each paramId in thisProduct.data.params */
+    
+        /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
+        thisProduct.priceElem.innerHTML = price;
       }
-
-      /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
-      thisProduct.priceElem.innerHTML = thisProduct.price;
     }
   }
-
   const app = {
     initMenu: function() {
       const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia. thisApp pobiera dane z pliku data.js
