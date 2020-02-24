@@ -100,6 +100,7 @@
       console.log('thisProduct.cartButton: ', thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //za pomocą elementu querySelector zostanie wyszukany element w html - span.price
       console.log('thisProduct.priceElem: ', thisProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper); //właściwość thisProduct.imagerWrapper, jej wartością jest pojedynczy element o selektorze zapisany w select.menuProduct.imageWrapper, wyszukany w elemencie thisProduct.element
     }
 
     initAccordion() { //metoda, która tworzy akordeon
@@ -170,28 +171,68 @@
         
         /* START LOOP: for each optionId in param.options */  //pętla w głównej pętli, która iteruje po wszystkich opcjach danego parametru
         for (let optionId in param.options) {
+          
           /* save the element in param.options with key optionId as const option */
           const option = param.options[optionId];
+          
           /* START IF: if option is selected and option is not default */ //jeśli jest zaznaczona opcja, która nie jest domyślna, to...(-->178)   //jeśli mamy obiekt option, który ma właściwość default równą false, to wynikiem !option.default będzie prawda. Jeśli ten obiekt nie ma takiej właściwości, to samo wyrażenie będzie również prawdziwe, ponieważ !undefined jest truthy
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1; ///spr.czy w paramId jaki indeks ma opcja optionId
           if(optionSelected && !option.default){
+            
             /* add price of option to variable price */ //cena produktu musi się zwiększyć o cenę tej opcji 
             price = price + option.price;
-          /* END IF: if option is selected and option is not default */
+          
+            /* END IF: if option is selected and option is not default */
           }
 
           /* START ELSE IF: if option is not selected and option is default */ //jeśli nie jest zaznaczona opcja, która jest domyślna, to...
           else if (!optionSelected && option.default) {
+            
             /* deduct price of option from price */ //cena produktu musi się zmniejszyć o cenę tej opcji
             price = price - option.price;
+          
           /* END ELSE IF: if option is not selected and option is default */
           }
+          
           /* END LOOP: for each optionId in param.options */
         }
+
+
+        /* create const with chosen products images that have paramId and optionId -  stworzenie stałej const, w której zapisane będą wyszukane elementy */ //wszystkie obrazki dla tej opcji, to wszystkie elementy wyszukane w thisProduct.imageWrapper, które pasują do selektora, składającego się z kropki, klucza parameru, myślnika, klucza opcji.
+          const activeImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
+        
+        /* START LOOP: for each optionId in param.options */ //blok if/else, którego warunek sprawdza tylko, czy opcja została zaznaczona
+        for (let optionId in param.option) {
+              
+        /* START IF: if product is selected and have image - jeśli opcja jest zaznaczona, to wszystkie obrazki dla tej opcji powinny otrzymać klasę zapisaną w classNames.menuProduct.imageVisible */
+        if (optionSelected && activeImage) {
+          
+          /* add class 'active' for image - dla każdego z tych elementów ma być dodana (w bloku if) odpowiednia klasa */
+          activeImage.classList.add(classNames.menuProduct.imageVisible);
+          
+          /* END IF: if option is selected and option is not default */
+          }
+          
+          /* START ELSE: when product is not selected - w przeciwnym razie, wszystkie obrazki dla tej opcji powinny stracić klasę zapisaną w classNames.menuProduct.imageVisible*/          
+          else {
+          
+            /* but have image - pętla iterująca po znalezionych elementach */
+            if (activeImage) {
+          
+          /* remove class 'active' - dla każdego z tych elementów ma być usunięta (w bloku else) odpowiednia klasa */
+          activeImage.classList.remove(classNames.menuProduct.imageVisible);
+
+          /* END IF: if product have image */
+          }
+          
+          /* END ELSE: if option is not selected and option is default*/
+        }
+
       /* END LOOP: for each paramId in thisProduct.data.params */
       }
+
       /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
-      thisProduct.priceElem.innerHTML = price;
+      thisProduct.priceElem.innerHTML = thisProduct.price;
     }
   }
 
