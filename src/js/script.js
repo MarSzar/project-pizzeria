@@ -229,7 +229,10 @@
 
           /* END LOOP: for each paramId in thisProduct.data.params */
         }
-    
+        
+        /* NEW - multiply price by amount */ 
+        price *= thisProduct.amountWidget.value; //tuż przed wyświetleniem ceny obliczonej z uwzględnieiem opcji pomnożymy ją przez ilość sztuk wybraną w widgecie
+
         /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
         thisProduct.priceElem.innerHTML = price;
       }
@@ -239,7 +242,9 @@
       const thisProduct = this;
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
-    }
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){ //NASŁUCHIWANIE EVENTU - druga część informowania producktu, nasłuchiwanie tego eventu w klasie Product
+        thisProduct.processOrder();
+      });
   }
 
   //New class - AmountWidget - widget wyboru ilości produktu//
