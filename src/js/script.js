@@ -249,6 +249,7 @@
       
       thisWidget.getElements(element); /*Wywołanie metody getElements(element)*/
       thisWidget.setValue(thisWidget.input.value); /*Wywołanie metody setValue*/
+      thisWidget.initActions(); /*Wywołanie metody initActions */
 
       console.log('AmountWidget:', thisWidget);
       console.log('constructor arguments:', element);
@@ -272,6 +273,24 @@
 
       thisWidget.value = newValue; //metoda ta zapisuje we właściwości thisWidget.value wartość przekazanego argumentu, po przekonwertowaniu go na liczbę
       thisWidget.input.value = thisWidget.value; //nowa wartość inputa równa wartości thisWidget.value. Dzięki temu nowa wartość wyświetli się na stronie
+    }
+
+    initActions () { //Kolejna metoda initActions - dodanie reakcji na eventy, w tej klasie 3 listenery eventów
+      const thisWidget = this;
+
+      thisWidget.input.addEventListener('change', function() {
+        thisWidget.setValue(thisWidget.input.value);
+      });
+
+      thisWidget.linkDecrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+      });
+
+      thisWidget.linkIncrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
+      });
     }
   }
 
