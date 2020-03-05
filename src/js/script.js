@@ -66,8 +66,9 @@
       thisProduct.getElements(); //wykonanie metody getElements
       thisProduct.initAccordion(); //wykonanie metody initAccordion
       thisProduct.initOrderForm(); //wywołanie metody initOrderForm
+      thisProduct.initAmountWidget(); //wywołanie metody initAmountWidget
       thisProduct.processOrder(); //wywołanie metodyprocessOrder
-
+      
       console.log('new Product:', thisProduct);
     }
 
@@ -91,16 +92,17 @@
       const thisProduct = this;
     
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable); //za pomocą elementu querySelector zostanie wyszukany element w html product_name (nazwa dania)
-      console.log('thisProduct.accordionTrigger: ', thisProduct.accordionTrigger);
+      //console.log('thisProduct.accordionTrigger: ', thisProduct.accordionTrigger);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form); //pobiera całą formę, form -cały formularz w którym może być parę forminput
-      console.log('thisProduct.form: ', thisProduct.form);
+      //console.log('thisProduct.form: ', thisProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs); //pobiera wszystkie formInput (ilości z liczbą), ilości sumuje, input-miejsce do wpisywania cyfr, liczb
-      console.log('thisProduct.formInputs: ', thisProduct.formInputs);
+      //console.log('thisProduct.formInputs: ', thisProduct.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton); //za pomocą elementu querySelector zostanie wyszukany element w html - przycisk Add to card
-      console.log('thisProduct.cartButton: ', thisProduct.cartButton);
+      //console.log('thisProduct.cartButton: ', thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //za pomocą elementu querySelector zostanie wyszukany element w html - span.price
-      console.log('thisProduct.priceElem: ', thisProduct.priceElem);
+      //console.log('thisProduct.priceElem: ', thisProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper); //właściwość thisProduct.imagerWrapper, jej wartością jest pojedynczy element o selektorze zapisany w select.menuProduct.imageWrapper, wyszukany w elemencie thisProduct.element
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
 
     initAccordion() { //metoda, która tworzy akordeon
@@ -159,7 +161,7 @@
       
       /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
       const formData = utils.serializeFormToObject(thisProduct.form); //funkcja zwracająca obiekt, w którym kluczami są wartości atrybutów name kontrolek formularza, wartościami będą tablice, zawierające wartości atrybutów vaule wybranych opcji
-      console.log('formData', formData);
+      //console.log('formData', formData);
       /* set variable price to equal thisProduct.data.price */ //zapisanie do zmiennej price domyślnej ceny produktu, wziętej z thisProduct.data.price - (na początku tej metody, przed pętlami tworzę zmienną price)
       let price = thisProduct.data.price;
       
@@ -232,11 +234,33 @@
         thisProduct.priceElem.innerHTML = price;
       }
     }
+
+    initAmountWidget(){ /*Nowa metoda - initAmountWidget w klasie Product. Metoda ta będzie tworzyła instancję klasy AmountWidget i zapisywała ją we właściwości produktu */
+      const thisProduct = this;
+
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+    }
   }
+
+  //New class - AmountWidget - widget wyboru ilości produktu//
+  class AmountWidget {
+    constructor(element) {
+      const thisWidget = this;
+
+      console.log('AmountWidget:', thisWidget);
+      console.log('constructor arguments:', element);
+    }
+  }
+
+
+
+
+
+
   const app = {
     initMenu: function() {
       const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia. thisApp pobiera dane z pliku data.js
-      console.log('thisApp.data:', thisApp.data); //-||-//
+      //console.log('thisApp.data:', thisApp.data); //-||-//
   
       for(let productData in thisApp.data.products){ //pętla iterująca po products w pliku data
         new Product(productData, thisApp.data.products[productData]); //dodanie instacji dla każdego produktu wraz z argumentami
