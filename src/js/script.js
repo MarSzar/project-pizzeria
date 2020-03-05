@@ -244,16 +244,23 @@
 
   //New class - AmountWidget - widget wyboru ilości produktu//
   class AmountWidget {
-    constructor(element) {
+    constructor(element) { //ten konstruktor musi otrzymywać odniesienie do elementu, w którym widget ma zostać zainicjowany. Konstruktor tej klasy będzie zapisywał do właściwości otrzymany (jako argument) element, oraz znajdował w nim trzy elementy 
       const thisWidget = this;
+      thisWidget.getElements(element); /*Wywołanie metody getElements(element)*/
 
       console.log('AmountWidget:', thisWidget);
       console.log('constructor arguments:', element);
     }
+
+    getElements(element){ /*Podobnie jak w klasie Product, metoda getElements, będzie odnajdywała i zapisywała we właściwościach wszystkie elementy DOM, które będą potrzebne. Tym razem, jednak będzie przekazywany tej metodzie argument element otrzymany przez konstruktor*/
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input); //1.element - input z wartością
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amout.linkDecrease); //2. element - link zmniejszający wartość
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease); //3. element - link zwiększający wartość
+    }
   }
-
-
-
 
 
 
