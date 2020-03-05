@@ -102,7 +102,7 @@
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //za pomocą elementu querySelector zostanie wyszukany element w html - span.price
       //console.log('thisProduct.priceElem: ', thisProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper); //właściwość thisProduct.imagerWrapper, jej wartością jest pojedynczy element o selektorze zapisany w select.menuProduct.imageWrapper, wyszukany w elemencie thisProduct.element
-      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget); 
     }
 
     initAccordion() { //metoda, która tworzy akordeon
@@ -245,6 +245,7 @@
       thisProduct.amountWidgetElem.addEventListener('updated', function(){ //NASŁUCHIWANIE EVENTU - druga część informowania producktu, nasłuchiwanie tego eventu w klasie Product
         thisProduct.processOrder();
       });
+    }
   }
 
   //New class - AmountWidget - widget wyboru ilości produktu//
@@ -266,7 +267,7 @@
 
       thisWidget.element = element;
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input); //1.element - input z wartością
-      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amout.linkDecrease); //2. element - link zmniejszający wartość
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease); //2. element - link zmniejszający wartość
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease); //3. element - link zwiększający wartość
     }
 
@@ -277,8 +278,8 @@
 
       /*TO DO: Add validation */ //dodanie walidacji wyeliminuje problemy t.j. wybranie 999 sztuk, zero lub liczbę-cenę ujemną
       if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
-      thisWidget.value = newValue; //metoda ta zapisuje we właściwości thisWidget.value wartość przekazanego argumentu, po przekonwertowaniu go na liczbę
-      thisWidget.announce(); //wywołanie metody announce - wywołanie wewnątrz metody setValue
+        thisWidget.value = newValue; //metoda ta zapisuje we właściwości thisWidget.value wartość przekazanego argumentu, po przekonwertowaniu go na liczbę
+        thisWidget.announce(); //wywołanie metody announce - wywołanie wewnątrz metody setValue
       }
 
       thisWidget.input.value = thisWidget.value; //nowa wartość inputa równa wartości thisWidget.value. Dzięki temu nowa wartość wyświetli się na stronie
