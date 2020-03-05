@@ -253,6 +253,7 @@
       const thisWidget = this;
       
       thisWidget.getElements(element); /*Wywołanie metody getElements(element)*/
+      thisWidget.value = settings.amountWidget.defaultValue; //nadanie pierwotnej wartości thisWidget.value na wypadek gdyby value w kodzie HTML nie zostało podane
       thisWidget.setValue(thisWidget.input.value); /*Wywołanie metody setValue*/
       thisWidget.initActions(); /*Wywołanie metody initActions */
 
@@ -274,10 +275,12 @@
 
       const newValue = parseInt(value);
 
-      /*TODO: Add validation */
-
+      /*TO DO: Add validation */ //dodanie walidacji wyeliminuje problemy t.j. wybranie 999 sztuk, zero lub liczbę-cenę ujemną
+      if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
       thisWidget.value = newValue; //metoda ta zapisuje we właściwości thisWidget.value wartość przekazanego argumentu, po przekonwertowaniu go na liczbę
-      thisWidget.announce; //wywołanie metody announce - wywołanie wewnątrz metody setValue
+      thisWidget.announce(); //wywołanie metody announce - wywołanie wewnątrz metody setValue
+      }
+
       thisWidget.input.value = thisWidget.value; //nowa wartość inputa równa wartości thisWidget.value. Dzięki temu nowa wartość wyświetli się na stronie
     }
 
