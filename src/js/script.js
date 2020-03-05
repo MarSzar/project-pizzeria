@@ -246,7 +246,9 @@
   class AmountWidget {
     constructor(element) { //ten konstruktor musi otrzymywać odniesienie do elementu, w którym widget ma zostać zainicjowany. Konstruktor tej klasy będzie zapisywał do właściwości otrzymany (jako argument) element, oraz znajdował w nim trzy elementy 
       const thisWidget = this;
+      
       thisWidget.getElements(element); /*Wywołanie metody getElements(element)*/
+      thisWidget.setValue(thisWidget.input.value); /*Wywołanie metody setValue*/
 
       console.log('AmountWidget:', thisWidget);
       console.log('constructor arguments:', element);
@@ -259,6 +261,17 @@
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input); //1.element - input z wartością
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amout.linkDecrease); //2. element - link zmniejszający wartość
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease); //3. element - link zwiększający wartość
+    }
+
+    setValue(value){ //klasa setValue będzie używana do ustawiania nowej wartości widgetu
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+
+      /*TODO: Add validation */
+
+      thisWidget.value = newValue; //metoda ta zapisuje we właściwości thisWidget.value wartość przekazanego argumentu, po przekonwertowaniu go na liczbę
+      thisWidget.input.value = thisWidget.value; //nowa wartość inputa równa wartości thisWidget.value. Dzięki temu nowa wartość wyświetli się na stronie
     }
   }
 
