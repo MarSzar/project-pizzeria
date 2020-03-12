@@ -195,6 +195,10 @@
       /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
       const formData = utils.serializeFormToObject(thisProduct.form); //funkcja zwracająca obiekt, w którym kluczami są wartości atrybutów name kontrolek formularza, wartościami będą tablice, zawierające wartości atrybutów vaule wybranych opcji
       //console.log('formData', formData);
+
+      /* NEW - add empty object */
+      thisProduct.params = {};  //zapisanie pustego obiektu {} do właściwości thisProduct.params
+
       /* set variable price to equal thisProduct.data.price */ //zapisanie do zmiennej price domyślnej ceny produktu, wziętej z thisProduct.data.price - (na początku tej metody, przed pętlami tworzę zmienną price)
       let price = thisProduct.data.price;
       
@@ -235,10 +239,19 @@
 
           /* create const with chosen products images that have paramId and optionId -  stworzenie stałej const, w której zapisane będą wyszukane elementy */ //wszystkie obrazki dla tej opcji, to wszystkie elementy wyszukane w thisProduct.imageWrapper, które pasują do selektora, składającego się z kropki, klucza parameru, myślnika, klucza opcji.
           const activeImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
-              
+          
           /* START IF: if product is selected and have image - jeśli opcja jest zaznaczona, to wszystkie obrazki dla tej opcji powinny otrzymać klasę zapisaną w classNames.menuProduct.imageVisible */
           if (optionSelected && activeImage) {
-          
+
+            /* NEW ! - sprawdzanie czy parametr został dodany do thisProduct.params. Jeśli nie to pod jego kluczem dod. jego label i pusty obiekt options*/
+            if(!thisProduct.params[paramId]){
+              thisProduct.params[paramId] = {
+                label: param.label,
+                options: {},
+              };
+            }
+            thisProduct.params[paramId].options[optionId] = option.label; //nast. do wspomnianego obiektu options dodajemy zaznaczoną opcję, używając jej klucza, a jako wartość ustawiając jej label
+                      
             /* add class 'active' for image - dla każdego z tych elementów ma być dodana (w bloku if) odpowiednia klasa */
             activeImage.classList.add(classNames.menuProduct.imageVisible);
           
@@ -272,6 +285,7 @@
         //thisProduct.priceElem.innerHTML = price;
         thisProduct.priceElem.innerHTML = thisProduct.price;
       }
+      console.log('thisProductParams: ', thisProduct.params);
     }
 
     initAmountWidget(){ /*Nowa metoda - initAmountWidget w klasie Product. Metoda ta będzie tworzyła instancję klasy AmountWidget i zapisywała ją we właściwości produktu */
