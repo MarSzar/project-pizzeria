@@ -5,16 +5,17 @@
 
   const select = {
     templateOf: {
-      menuProduct: '#template-menu-product'
+      menuProduct: '#template-menu-product',
+      cartProduct: '#template-cart-product', // CODE ADDED
     },
     containerOf: {
       menu: '#product-list',
-      cart: '#cart'
+      cart: '#cart',
     },
     all: {
       menuProducts: '#product-list > .product',
       menuProductsActive: '#product-list > .product.active',
-      formInputs: 'input, select'
+      formInputs: 'input, select',
     },
     menuProduct: {
       clickable: '.product__header',
@@ -22,36 +23,67 @@
       priceElem: '.product__total-price .price',
       imageWrapper: '.product__images',
       amountWidget: '.widget-amount',
-      cartButton: '[href="#add-to-cart"]'
+      cartButton: '[href="#add-to-cart"]',
     },
     widgets: {
       amount: {
-        input: 'input[name="amount"]',
+        input: 'input.amount', // CODE CHANGED
         linkDecrease: 'a[href="#less"]',
-        linkIncrease: 'a[href="#more"]'
-      }
-    }
+        linkIncrease: 'a[href="#more"]',
+      },
+    },
+    // CODE ADDED START
+    cart: {
+      productList: '.cart__order-summary',
+      toggleTrigger: '.cart__summary',
+      totalNumber: `.cart__total-number`,
+      totalPrice: '.cart__total-price strong, .cart__order-total .cart__order-price-sum strong',
+      subtotalPrice: '.cart__order-subtotal .cart__order-price-sum strong',
+      deliveryFee: '.cart__order-delivery .cart__order-price-sum strong',
+      form: '.cart__order',
+      formSubmit: '.cart__order [type="submit"]',
+      phone: '[name="phone"]',
+      address: '[name="address"]',
+    },
+    cartProduct: {
+      amountWidget: '.widget-amount',
+      price: '.cart__product-price',
+      edit: '[href="#edit"]',
+      remove: '[href="#remove"]',
+    },
+    // CODE ADDED END
   };
-
+  
   const classNames = {
     menuProduct: {
       wrapperActive: 'active',
-      imageVisible: 'active'
-    }
+      imageVisible: 'active',
+    },
+    // CODE ADDED START
+    cart: {
+      wrapperActive: 'active',
+    },
+    // CODE ADDED END
   };
-
+  
   const settings = {
     amountWidget: {
       defaultValue: 1,
       defaultMin: 1,
-      defaultMax: 9
-    }
+      defaultMax: 9,
+    }, // CODE CHANGED
+    // CODE ADDED START
+    cart: {
+      defaultDeliveryFee: 20,
+    },
+    // CODE ADDED END
   };
-
+  
   const templates = {
-    menuProduct: Handlebars.compile(
-      document.querySelector(select.templateOf.menuProduct).innerHTML
-    )
+    menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
+    // CODE ADDED START
+    cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
+    // CODE ADDED END
   };
 
   class Product {
@@ -69,7 +101,7 @@
       thisProduct.initAmountWidget(); //wywołanie metody initAmountWidget
       thisProduct.processOrder(); //wywołanie metodyprocessOrder
       
-      console.log('new Product:', thisProduct);
+      //console.log('new Product:', thisProduct);
     }
 
     renderInMenu() { //metoda, która tworzy (renderuje) nowy kod na stronie
@@ -258,8 +290,8 @@
       thisWidget.setValue(thisWidget.input.value); /*Wywołanie metody setValue*/
       thisWidget.initActions(); /*Wywołanie metody initActions */
 
-      console.log('AmountWidget:', thisWidget);
-      console.log('constructor arguments:', element);
+      //console.log('AmountWidget:', thisWidget);
+      //console.log('constructor arguments:', element);
     }
 
     getElements(element){ /*Podobnie jak w klasie Product, metoda getElements, będzie odnajdywała i zapisywała we właściwościach wszystkie elementy DOM, które będą potrzebne. Tym razem, jednak będzie przekazywany tej metodzie argument element otrzymany przez konstruktor*/
@@ -311,9 +343,50 @@
     }
   }
 
+  //NEW CLASS - CART - klasa ta będzie obsługiwała koszyk i wszystkie jego funkcjonalności
+  class Cart{
+    constructor(element){
+      const thisCart = this;
 
+      thisCart.products = []; //w tej tablicy będą przechowywane produkty dodane do koszyka
+
+      thisCart.getElements(element); //wywołanie metody getElements
+      thisCart.initActions(); //wywołanie metody initActions
+
+      console.log('new Cart', thisCart);
+    }
+
+    getElements(element){
+      const thisCart = this;
+
+      thisCart.dom = {}; //w obiekcie thisCart.dom będziemy przechowywać wszystkie elementy DOM, wyszukane w komponencie koszyka 
+
+      thisCart.dom.wrapper = element;
+
+      thisCart.dom.toggleTrigger = element.querySelector(select.cart.toggleTrigger); //definicja właściwości thisCart.dom.toggleTrigger, która znajduje w thisCart.dom.wrapper pojedynczy element o slektorze zapisanym w select.cart.toggleTrigger
+    }
+
+    initActions(){ //metoda, ktora rozwija i zwija koszyk przy kliknięciu pokazując/ukrywając szczegóły koszyka
+      const thisCart = this;
+
+      thisCart.dom.toggleTrigger.addEventListener('click', function(event) {   //deklaracja thisCart i dodanie listener eventu 'click' na elemencie thisCart.dom.toggleTrigger
+    
+        event.preventDefault(); //wyrażenie, które powstrzyma domyślną akcję
+    
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);   //handler listenera ma toggle'ować klasę zapisaną w classNames.cart.wrapperActive na elemencie thisCart.dom.wrapper
+      });
+    }
+  }
 
   const app = {
+
+    initCart: function() { //kiedy jest juz klasa Cart(KLASA-wzorzec, def.jak będą wyglądaly instancje tej klasy), w obiekcie app metida initCart będzie inicjować instancję (OBIEKT stworzony wedle wzorca (klasy)) koszyka. Przekażemy jej wrapper (czyli kontener, element okalający) koszyka.
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart (cartElem);
+    },
+
     initMenu: function() {
       const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia. thisApp pobiera dane z pliku data.js
       //console.log('thisApp.data:', thisApp.data); //-||-//
@@ -333,13 +406,14 @@
     init: function()  {
       const thisApp = this;
       console.log('*** App starting ***');
-      console.log('thisApp:', thisApp);
-      console.log('classNames:', classNames);
-      console.log('settings:', settings);
-      console.log('templates:', templates);
+      //console.log('thisApp:', thisApp);
+      //console.log('classNames:', classNames);
+      //console.log('settings:', settings);
+      //console.log('templates:', templates);
 
       thisApp.initData(); //Instancja dla każdego produktu (wykonanie metody initData)
       thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
+      thisApp.initCart(); //wywołanie metody
     }
   };
   app.init();
