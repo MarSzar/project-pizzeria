@@ -461,6 +461,7 @@
       thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
       thisApp.initCart(); //wywołanie metody
     }
+    
   };
   app.init();
 }
