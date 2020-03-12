@@ -264,10 +264,13 @@
         }
         
         /* NEW - multiply price by amount */ 
-        price *= thisProduct.amountWidget.value; //tuż przed wyświetleniem ceny obliczonej z uwzględnieiem opcji pomnożymy ją przez ilość sztuk wybraną w widgecie
+        //price *= thisProduct.amountWidget.value; //tuż przed wyświetleniem ceny obliczonej z uwzględnieiem opcji pomnożymy ją przez ilość sztuk wybraną w widgecie
+        thisProduct.priceSingle = price; //stworzenie ceny jednej sztuki - priceSingle
+        thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value; //stworzenie ceny całkowitej - price. To cena jednej sztuki produktu pomnożona przez cyfrę w widgecie Amount
 
         /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
-        thisProduct.priceElem.innerHTML = price;
+        //thisProduct.priceElem.innerHTML = price;
+        thisProduct.priceElem.innerHTML = thisProduct.price;
       }
     }
 
