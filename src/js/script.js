@@ -300,6 +300,9 @@
     addToCart(){ //Nowa metoda w klasie Product - przekazuje ona całą instancję jako argument metody app.cart.add.
       const thisProduct = this;
 
+      thisProduct.name = thisProduct.data.name; //uproszczenie dostępu do danych - "wyciągnięcie" ich do poziomu właściwości instancji
+      thisProduct.amount = thisProduct.amountWidget.value;  //-//-//
+
       app.cart.add(thisProduct); //
     }
   }
