@@ -391,6 +391,8 @@
       thisCart.dom.wrapper = element;
 
       thisCart.dom.toggleTrigger = element.querySelector(select.cart.toggleTrigger); //definicja właściwości thisCart.dom.toggleTrigger, która znajduje w thisCart.dom.wrapper pojedynczy element o slektorze zapisanym w select.cart.toggleTrigger
+    
+      thisCart.dom.productList = element.querySelector(select.cart.productList);  //zdefiniowanie thisCart.dom.productList
     }
 
     initActions(){ //metoda, ktora rozwija i zwija koszyk przy kliknięciu pokazując/ukrywając szczegóły koszyka
@@ -405,9 +407,20 @@
     }
 
     add(menuProduct){
-      //const thisCart = this;
+      const thisCart = this;
 
       console.log('adding product', menuProduct);
+      
+      //GENEROWANIE ELEMENTÓW DOM
+
+      /*generate HTML based on template */
+      const generatedHTML = templates.cartProduct(menuProduct); //za pomocą szablonu tw. kod HTML i zapisujemy go w stałej generatedHTML. Do szblonu przekazywany jest cały obiekt produktu
+
+      /*change generateHTML into DOM elements */
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);  //nast. ten kod zamieniany jest na elementy DOM i zapisany w następnej stałej generatedDOM
+
+      /* add generatedDOM products to menu cart */
+      thisCart.dom.productList.appendChild(generatedDOM); //dodaj.te elementy DOM do thisCard.dom.productList
     }
   }
 
