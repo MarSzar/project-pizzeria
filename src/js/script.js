@@ -185,6 +185,7 @@
       thisProduct.cartButton.addEventListener('click', function(event){ //handler eventu wywołujący metodę processOrder bez żadnych argumentów, dodatkowo dla eventu click na guziku blokujemy domyślną akcję, czyli zmianę adresu strony po kliknięciu w link (guzik z wyglądu jest guzikiem, w rzeczywistości jest linkiem)
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
     }
 
@@ -277,6 +278,12 @@
       thisProduct.amountWidgetElem.addEventListener('updated', function(){ //NASŁUCHIWANIE EVENTU - druga część informowania producktu, nasłuchiwanie tego eventu w klasie Product
         thisProduct.processOrder();
       });
+    }
+
+    addToCart(){ //Nowa metoda w klasie Product - przekazuje ona całą instancję jako argument metody app.cart.add.
+      const thisProduct = this;
+
+      app.cart.add(thisProduct); //
     }
   }
 
@@ -375,6 +382,12 @@
     
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);   //handler listenera ma toggle'ować klasę zapisaną w classNames.cart.wrapperActive na elemencie thisCart.dom.wrapper
       });
+    }
+
+    add(menuProduct){
+      //const thisCart = this;
+
+      console.log('adding product', menuProduct);
     }
   }
 
