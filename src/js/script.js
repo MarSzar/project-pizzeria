@@ -101,7 +101,6 @@
       thisProduct.initAmountWidget(); //wywołanie metody initAmountWidget
       thisProduct.processOrder(); //wywołanie metodyprocessOrder
       
-      //console.log('new Product:', thisProduct);
     }
 
     renderInMenu() { //metoda, która tworzy (renderuje) nowy kod na stronie
@@ -124,15 +123,10 @@
       const thisProduct = this;
     
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable); //za pomocą elementu querySelector zostanie wyszukany element w html product_name (nazwa dania)
-      //console.log('thisProduct.accordionTrigger: ', thisProduct.accordionTrigger);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form); //pobiera całą formę, form -cały formularz w którym może być parę forminput
-      //console.log('thisProduct.form: ', thisProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs); //pobiera wszystkie formInput (ilości z liczbą), ilości sumuje, input-miejsce do wpisywania cyfr, liczb
-      //console.log('thisProduct.formInputs: ', thisProduct.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton); //za pomocą elementu querySelector zostanie wyszukany element w html - przycisk Add to card
-      //console.log('thisProduct.cartButton: ', thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //za pomocą elementu querySelector zostanie wyszukany element w html - span.price
-      //console.log('thisProduct.priceElem: ', thisProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper); //właściwość thisProduct.imagerWrapper, jej wartością jest pojedynczy element o selektorze zapisany w select.menuProduct.imageWrapper, wyszukany w elemencie thisProduct.element
       thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget); 
     }
@@ -142,7 +136,6 @@
 
       /* find the clickable trigger (the element that should react to clicking) */
       
-
       /* START: click event listener to trigger */
       thisProduct.accordionTrigger.addEventListener('click', function(event) {
       //clickedTrigger.addEventListener('click', function(event) { //wyszukiwanie elementu, któremu dodajemy listener eventu click
@@ -194,8 +187,7 @@
       
       /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
       const formData = utils.serializeFormToObject(thisProduct.form); //funkcja zwracająca obiekt, w którym kluczami są wartości atrybutów name kontrolek formularza, wartościami będą tablice, zawierające wartości atrybutów vaule wybranych opcji
-      //console.log('formData', formData);
-
+      
       /* NEW - add empty object */
       thisProduct.params = {};  //zapisanie pustego obiektu {} do właściwości thisProduct.params
 
@@ -276,16 +268,16 @@
           /* END LOOP: for each paramId in thisProduct.data.params */
         }
         
-        /* NEW - multiply price by amount */ 
-        //price *= thisProduct.amountWidget.value; //tuż przed wyświetleniem ceny obliczonej z uwzględnieiem opcji pomnożymy ją przez ilość sztuk wybraną w widgecie
-        thisProduct.priceSingle = price; //stworzenie ceny jednej sztuki - priceSingle
-        thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value; //stworzenie ceny całkowitej - price. To cena jednej sztuki produktu pomnożona przez cyfrę w widgecie Amount
-
-        /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
-        //thisProduct.priceElem.innerHTML = price;
-        thisProduct.priceElem.innerHTML = thisProduct.price;
+        
       }
-      console.log('thisProductParams: ', thisProduct.params);
+      /* NEW - multiply price by amount */ 
+      //price *= thisProduct.amountWidget.value; //tuż przed wyświetleniem ceny obliczonej z uwzględnieiem opcji pomnożymy ją przez ilość sztuk wybraną w widgecie
+      thisProduct.priceSingle = price; //stworzenie ceny jednej sztuki - priceSingle
+      thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value; //stworzenie ceny całkowitej - price. To cena jednej sztuki produktu pomnożona przez cyfrę w widgecie Amount
+
+      /* set the contents of thisProduct.priceElem to be the value of variable price */ //wstawienie wartości zmiennej price do elementu thisProduct.priceElem. (po pętlach wyświetlam cenę)
+      //thisProduct.priceElem.innerHTML = price;
+      thisProduct.priceElem.innerHTML = thisProduct.price;
     }
 
     initAmountWidget(){ /*Nowa metoda - initAmountWidget w klasie Product. Metoda ta będzie tworzyła instancję klasy AmountWidget i zapisywała ją we właściwości produktu */
@@ -317,8 +309,6 @@
       thisWidget.setValue(thisWidget.input.value); /*Wywołanie metody setValue*/
       thisWidget.initActions(); /*Wywołanie metody initActions */
 
-      //console.log('AmountWidget:', thisWidget);
-      //console.log('constructor arguments:', element);
     }
 
     getElements(element){ /*Podobnie jak w klasie Product, metoda getElements, będzie odnajdywała i zapisywała we właściwościach wszystkie elementy DOM, które będą potrzebne. Tym razem, jednak będzie przekazywany tej metodzie argument element otrzymany przez konstruktor*/
@@ -380,7 +370,6 @@
       thisCart.getElements(element); //wywołanie metody getElements
       thisCart.initActions(); //wywołanie metody initActions
 
-      console.log('new Cart', thisCart);
     }
 
     getElements(element){
@@ -408,8 +397,6 @@
 
     add(menuProduct){
       const thisCart = this;
-
-      console.log('adding product', menuProduct);
       
       //GENEROWANIE ELEMENTÓW DOM
 
@@ -435,8 +422,7 @@
 
     initMenu: function() {
       const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia. thisApp pobiera dane z pliku data.js
-      //console.log('thisApp.data:', thisApp.data); //-||-//
-  
+      
       for(let productData in thisApp.data.products){ //pętla iterująca po products w pliku data
         new Product(productData, thisApp.data.products[productData]); //dodanie instacji dla każdego produktu wraz z argumentami
       }
@@ -452,11 +438,7 @@
     init: function()  {
       const thisApp = this;
       console.log('*** App starting ***');
-      //console.log('thisApp:', thisApp);
-      //console.log('classNames:', classNames);
-      //console.log('settings:', settings);
-      //console.log('templates:', templates);
-
+      
       thisApp.initData(); //Instancja dla każdego produktu (wykonanie metody initData)
       thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
       thisApp.initCart(); //wywołanie metody
