@@ -409,7 +409,9 @@
       /* add generatedDOM products to menu cart */
       thisCart.dom.productList.appendChild(generatedDOM); //dodaj.te elementy DOM do thisCard.dom.productList
     
-      thisCart.products.push(menuProduct);
+      //thisCart.products.push(menuProduct); //--> po stworzeniu klasy CartProduct zmiana na:
+      thisCart.products.push(new CartProduct(menuProduct,generatedDOM)); //stworzenie nowej instancji klasy new CartProduct i dodanie jej do tablicy thisCart.products
+
       console.log('thisCart.products', thisCart.products);
     }
   }
