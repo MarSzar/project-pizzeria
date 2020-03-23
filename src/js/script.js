@@ -416,7 +416,7 @@
     }
   }
 
-  //NEW CLASS - CARTPRODUCT - klasa pozycji w koszyku
+  //NEW CLASS - CARTPRODUCT - klasa pozycji w koszyku, koszyk zapamiętuje szczegóły zamawianego produktu, tworząc nową instancję klasy CartProduct
   class CartProduct{
     constructor(menuProduct, element){ //konstruktor przyjmujący dwa argumenty: menuProduct i element
       const thisCartProduct = this;
