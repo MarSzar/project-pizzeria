@@ -408,6 +408,41 @@
 
       /* add generatedDOM products to menu cart */
       thisCart.dom.productList.appendChild(generatedDOM); //dodaj.te elementy DOM do thisCard.dom.productList
+    
+      thisCart.products.push(menuProduct);
+      console.log('thisCart.products', thisCart.products);
+    }
+  }
+
+  //NEW CLASS - CARTPRODUCT - klasa pozycji w koszyku
+  class CartProduct{
+    constructor(menuProduct, element){ //konstruktor przyjmujący dwa argumenty: menuProduct i element
+      const thisCartProduct = this;
+
+      thisCartProduct.id = menuProduct.id; //zapisanie właściwości thisCartProduct czerpiąc wartości z menuProduct dla właściwości: id, name, price, priceSingle, amount
+      thisCartProduct.name = menuProduct.name;
+      thisCartProduct.price = menuProduct.price;
+      thisCartProduct.priceSingle = menuProduct.priceSingle;
+      thisCartProduct.amount = menuProduct.amount;
+      
+      thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params)); //klonowanie obiektu, aby zachować kopię jego aktualnych wartości
+
+      thisCartProduct.getElements(element); //wywołanie metody getElements i przekazanie jej argumentu element
+      
+      console.log('new CartProduct', thisCartProduct);
+      console.log('productData', menuProduct);
+    }
+    
+    getElements(element){
+      const thisCartProduct = this;
+
+      thisCartProduct.dom = {}; 
+
+      thisCartProduct.dom.wrapper = element;
+      thisCartProduct.dom.amountWidget = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.amountWidget);
+      thisCartProduct.dom.price = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.price);
+      thisCartProduct.dom.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
+      thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remve);
     }
   }
 
