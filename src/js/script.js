@@ -430,7 +430,8 @@
       thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params)); //klonowanie obiektu, aby zachować kopię jego aktualnych wartości
 
       thisCartProduct.getElements(element); //wywołanie metody getElements i przekazanie jej argumentu element
-      
+      thisCartProduct.initAmountWidget(); //wykonanie metody initAmountWidget
+
       console.log('new CartProduct', thisCartProduct);
       console.log('productData', menuProduct);
     }
@@ -446,7 +447,20 @@
       thisCartProduct.dom.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
       thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remve);
     }
+
+    initAmountWidget(){ //Obsługa widgetu ilości sztuk - zmiana liczby sztuk danej pozycji w koszyku
+      const thisCartProduct = this;
+
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+      thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
+        thisCartProduct.amount = thisCartProduct.amountWidget.value;
+        thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
+
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price; //wyświetlenie ceny tego produktu w koszyku
+      });
+    }
   }
+  //Koniec klasy CartProduct
 
   const app = {
 
