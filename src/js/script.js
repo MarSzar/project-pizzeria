@@ -459,10 +459,17 @@
       }
     }
 
-    //remove(cartProduct){
-    //  const thisCart = this;
-    //
-    //}
+    remove(cartProduct){
+      const thisCart = this; //zadeklarowanie stałej thisCart
+      
+      const index = thisCart.products.indexOf(cartProduct); //zadeklarowanie stałej index, której wartością jest indeks cartProduct w tablicy thisCart.products
+      
+      thisCart.products.splice(index, 1); //użycie metody splice do usunięcie elementu o tym indeksie z tablicy thisCart.products
+      
+      cartProduct.dom.wrapper.remove(); //usunięcie z DOM elementu cart.Product.dom.wrapper
+      
+      thisCart.update(); //wywołanie metody update w celu przeliczenia sum po usunięciu produktu
+    }
   }
 
   //NEW CLASS - CARTPRODUCT - klasa pozycji w koszyku, koszyk zapamiętuje szczegóły zamawianego produktu, tworząc nową instancję klasy CartProduct
