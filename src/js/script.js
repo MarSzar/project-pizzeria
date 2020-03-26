@@ -383,6 +383,12 @@
       thisCart.dom.toggleTrigger = element.querySelector(select.cart.toggleTrigger); //definicja właściwości thisCart.dom.toggleTrigger, która znajduje w thisCart.dom.wrapper pojedynczy element o slektorze zapisanym w select.cart.toggleTrigger
     
       thisCart.dom.productList = element.querySelector(select.cart.productList);  //zdefiniowanie thisCart.dom.productList
+    
+      thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee']; //tworzenie tablicy zawierajace cztery stringi (ciągi znaków) - każdy jest kluczem w obiekcie select.cart
+      
+      for(let key of thisCart.renderTotalsKeys){
+        thisCart.dom[key] = thisCart.dom.wrapper.querySelectorAll(select.cart[key]);
+      }
     }
 
     initActions(){ //metoda, ktora rozwija i zwija koszyk przy kliknięciu pokazując/ukrywając szczegóły koszyka
@@ -431,6 +437,12 @@
 
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee; //totalPrice = "subtotal" (suma cen pozycji w koszyku) + cena dostawy
       console.log('thisCart.totalPrice', thisCart.totalPrice);
+
+      for(let key of thisCart.renderTotalsKeys){ //ta sama pęla jak w metodzie getElements iterująca po thisCart.renderTotalKeys
+        for(let elem of thisCart.dom[key]){ //pętla iterujaca po każdym elemencie z kolekcji, zapisanej wcześniej pod jednym z kluczy w thisCart.renderTotalsKeys. Dla każdego z tych elemenctów ustawiana jest właściwość koszyka, który ma taki sam klucz
+          elem.innerHTML = thisCart[key];
+        }
+      }
     }
   }
 
