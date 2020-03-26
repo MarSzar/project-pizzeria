@@ -409,6 +409,10 @@
       thisCart.dom.productList.addEventListener('updated', function(){  //nasłuchiwanie na liście produktów, w której umieszczamy produkty, w których znajduje się widget liczby sztuk, który generuje ten event. Dzięki właściwości bubbles "słychać" go na tej liści i można wtedy wykonać metode update
         thisCart.update();
       });
+
+      thisCart.dom.productList.addEventListner('remove', function(){ //listener eventu remove
+        thisCart.remove(event.detail.cartProduct);
+      });
     }
 
     add(menuProduct){
@@ -454,6 +458,11 @@
         }
       }
     }
+
+    //remove(cartProduct){
+    //  const thisCart = this;
+    //
+    //}
   }
 
   //NEW CLASS - CARTPRODUCT - klasa pozycji w koszyku, koszyk zapamiętuje szczegóły zamawianego produktu, tworząc nową instancję klasy CartProduct
