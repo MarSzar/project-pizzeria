@@ -471,6 +471,7 @@
 
       thisCartProduct.getElements(element); //wywołanie metody getElements i przekazanie jej argumentu element
       thisCartProduct.initAmountWidget(); //wykonanie metody initAmountWidget
+      thisCartProduct.initActions(); //wywołanie metody initActions
 
       //console.log('new CartProduct', thisCartProduct);
       //console.log('productData', menuProduct);
@@ -499,6 +500,33 @@
         thisCartProduct.dom.price.innerHTML = thisCartProduct.price; //wyświetlenie ceny tego produktu w koszyku
       });
     }
+
+    remove(){
+      const thisCartProduct = this;
+
+      const event = new CustomEvent('remove', {
+        bubbles: true,
+        detail: {   //właściwość detail - można przekazać dowolne informacje do handlera eventu. W tym przypadku przekazuje odwołanie do tej instancji, dla której kliknięto guzik usuwania
+          cartproduct: thisCartProduct,
+        },
+      });
+      
+      thisCartProduct.dom.wrapper.dispatchEvent(event);
+    }
+
+    initAction(){
+      const thisCartProduct = this;
+      thisCartProduct.dom.edit.addEventListener('click', function(event){
+        event.preventDefault();
+      });
+      
+      thisCartProduct.dom.remove.addEventListener('click', function(event){
+        event.preventDefault();
+        thisCartProduct.remove();
+        console.log('remove', event);
+      });
+    }
+
   }
   //Koniec klasy CartProduct
 
