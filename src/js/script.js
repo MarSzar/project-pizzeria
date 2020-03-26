@@ -366,6 +366,7 @@
       const thisCart = this;
 
       thisCart.products = []; //w tej tablicy będą przechowywane produkty dodane do koszyka
+      thisCart.deliveryFee = settings.cart.defaultDeliveryFee; //cena dostawy - cena stała, nadanie wartości zapisanej w odpowiedniej właściwości obiektu settings
 
       thisCart.getElements(element); //wywołanie metody getElements
       thisCart.initActions(); //wywołanie metody initActions
@@ -411,8 +412,25 @@
     
       //thisCart.products.push(menuProduct); //--> po stworzeniu klasy CartProduct zmiana na:
       thisCart.products.push(new CartProduct(menuProduct,generatedDOM)); //stworzenie nowej instancji klasy new CartProduct i dodanie jej do tablicy thisCart.products
+      //console.log('thisCart.products', thisCart.products);
 
-      console.log('thisCart.products', thisCart.products);
+      thisCart.update(); //wywołanie metody update
+    }
+
+    update(){
+      const thisCart = this;
+      thisCart.totalNumber = 0;
+      thisCart.subtotalPrice = 0;
+
+      for(let product of thisCart.products) { //pętla iterująca po thisCart.products
+        thisCart.subtotalPrice += product.price; //suma cen pozycji w koszyku = zwiększenie o cenę tego produktu
+        console.log('price of products', product.price);
+        thisCart.totalNumber += product.amount; //suma liczby sztuk zamawianych produktów = zwiększenie o jego liczbę
+        console.log('amount of products', product.amount);
+      }
+
+      thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee; //totalPrice = "subtotal" (suma cen pozycji w koszyku) + cena dostawy
+      console.log('thisCart.totalPrice', thisCart.totalPrice);
     }
   }
 
@@ -432,8 +450,8 @@
       thisCartProduct.getElements(element); //wywołanie metody getElements i przekazanie jej argumentu element
       thisCartProduct.initAmountWidget(); //wykonanie metody initAmountWidget
 
-      console.log('new CartProduct', thisCartProduct);
-      console.log('productData', menuProduct);
+      //console.log('new CartProduct', thisCartProduct);
+      //console.log('productData', menuProduct);
     }
     
     getElements(element){
@@ -488,7 +506,7 @@
 
     init: function()  {
       const thisApp = this;
-      console.log('*** App starting ***');
+      //console.log('*** App starting ***');
       
       thisApp.initData(); //Instancja dla każdego produktu (wykonanie metody initData)
       thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
