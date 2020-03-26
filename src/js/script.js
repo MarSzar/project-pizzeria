@@ -355,7 +355,11 @@
     announce(){ //WYWOŁANIE EVENTU - metoda announce będzie tworzyła instancje klasy Event, wbudowanej w silnik JS (czyli w przeglądarkę). Następnie, ten event zostanie wywołany na kontenerze naszego widgetu
       const thisWidget = this;
 
-      const event = new Event('updated');
+      //const event = new Event('updated'); -->
+      const event = new CustomEvent('updated', {
+        bubbles: true   //włączenie bubbles - bąbelkowanie - dzięki włączeniu ten event po wykonaniu na jakimś elemencie będzie przekazany jego rodzicowi, oraz rodzicowi rodzica, i tak dalej aż do samego <body>, document, window. (event click bąbelkuje domyślnie) 
+      });
+
       thisWidget.element.dispatchEvent(event);
     }
   }
@@ -400,6 +404,11 @@
     
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);   //handler listenera ma toggle'ować klasę zapisaną w classNames.cart.wrapperActive na elemencie thisCart.dom.wrapper
       });
+
+      //aktualizacja sum po zmianie ilości
+      thisCart.dom.productList.addEventListener('updated', function(){  //nasłuchiwanie na liście produktów, w której umieszczamy produkty, w których znajduje się widget liczby sztuk, który generuje ten event. Dzięki właściwości bubbles "słychać" go na tej liści i można wtedy wykonać metode update
+        thisCart.update();
+      });
     }
 
     add(menuProduct){
@@ -438,6 +447,7 @@
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee; //totalPrice = "subtotal" (suma cen pozycji w koszyku) + cena dostawy
       console.log('thisCart.totalPrice', thisCart.totalPrice);
 
+      //wyświetlanie aktualnych sum
       for(let key of thisCart.renderTotalsKeys){ //ta sama pęla jak w metodzie getElements iterująca po thisCart.renderTotalKeys
         for(let elem of thisCart.dom[key]){ //pętla iterujaca po każdym elemencie z kolekcji, zapisanej wcześniej pod jednym z kluczy w thisCart.renderTotalsKeys. Dla każdego z tych elemenctów ustawiana jest właściwość koszyka, który ma taki sam klucz
           elem.innerHTML = thisCart[key];
