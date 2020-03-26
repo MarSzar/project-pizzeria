@@ -410,7 +410,7 @@
         thisCart.update();
       });
 
-      thisCart.dom.productList.addEventListner('remove', function(){ //listener eventu remove
+      thisCart.dom.productList.addEventListener('remove', function(){ //listener eventu remove
         thisCart.remove(event.detail.cartProduct);
       });
     }
@@ -487,7 +487,7 @@
 
       thisCartProduct.getElements(element); //wywołanie metody getElements i przekazanie jej argumentu element
       thisCartProduct.initAmountWidget(); //wykonanie metody initAmountWidget
-      thisCartProduct.initActions(); //wywołanie metody initActions
+      thisCartProduct.initAction(); //wywołanie metody initActions
 
       //console.log('new CartProduct', thisCartProduct);
       //console.log('productData', menuProduct);
@@ -502,7 +502,7 @@
       thisCartProduct.dom.amountWidget = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.amountWidget);
       thisCartProduct.dom.price = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.price);
       thisCartProduct.dom.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
-      thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remve);
+      thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remove);
     }
 
     initAmountWidget(){ //Obsługa widgetu ilości sztuk - zmiana liczby sztuk danej pozycji w koszyku
