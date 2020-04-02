@@ -523,7 +523,7 @@
       const event = new CustomEvent('remove', {
         bubbles: true,
         detail: {   //właściwość detail - można przekazać dowolne informacje do handlera eventu. W tym przypadku przekazuje odwołanie do tej instancji, dla której kliknięto guzik usuwania
-          cartproduct: thisCartProduct,
+          cartProduct: thisCartProduct,
         },
       });
       
