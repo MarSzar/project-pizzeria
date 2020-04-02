@@ -77,6 +77,11 @@
       defaultDeliveryFee: 20,
     },
     // CODE ADDED END
+    db: { //konfiguracja parametrów, które są potrzebne do łączenia z API
+      url: '//localhost:3131',
+      product: 'product',
+      order: 'order',
+    },
   };
   
   const templates = {
@@ -463,7 +468,9 @@
       const thisCart = this; //zadeklarowanie stałej thisCart
       
       const index = thisCart.products.indexOf(cartProduct); //zadeklarowanie stałej index, której wartością jest indeks cartProduct w tablicy thisCart.products
-      
+      console.log('index:', index);
+      console.log('value at index:', thisCart.products[index]);
+
       thisCart.products.splice(index, 1); //użycie metody splice do usunięcie elementu o tym indeksie z tablicy thisCart.products
       
       cartProduct.dom.wrapper.remove(); //usunięcie z DOM elementu cart.Product.dom.wrapper
@@ -487,7 +494,7 @@
 
       thisCartProduct.getElements(element); //wywołanie metody getElements i przekazanie jej argumentu element
       thisCartProduct.initAmountWidget(); //wykonanie metody initAmountWidget
-      thisCartProduct.initAction(); //wywołanie metody initActions
+      thisCartProduct.initActions(); //wywołanie metody initAction
 
       //console.log('new CartProduct', thisCartProduct);
       //console.log('productData', menuProduct);
@@ -530,7 +537,7 @@
       thisCartProduct.dom.wrapper.dispatchEvent(event);
     }
 
-    initAction(){
+    initActions(){
       const thisCartProduct = this;
       thisCartProduct.dom.edit.addEventListener('click', function(event){
         event.preventDefault();
@@ -559,7 +566,8 @@
       const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia. thisApp pobiera dane z pliku data.js
       
       for(let productData in thisApp.data.products){ //pętla iterująca po products w pliku data
-        new Product(productData, thisApp.data.products[productData]); //dodanie instacji dla każdego produktu wraz z argumentami
+        //new Product(productData, thisApp.data.products[productData]); //dodanie instacji dla każdego produktu wraz z argumentami
+        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
     },
 
@@ -567,15 +575,36 @@
       //Instancja dla każdego produktu. Aplikacja ma korzystać z dataSource w pliku data.js jako źródła danych, ale w przyszłości dane będą wczytywane z serwera. Metoda app.initData w przyszłości pozwoli zmienić sposób pobierania danych
       const thisApp = this; //-||-
 
-      thisApp.data = dataSource; //-||- dataSource - stała zadeklarowana w data.js, w której są produkty na pizze
+      //thisApp.data = dataSource; //-||- dataSource - stała zadeklarowana w data.js, w której są produkty na pizze
+      thisApp.data = {};
+      const url = settings.db.url + '/' + settings.db.product;
+    
+      fetch(url) //wywołanie AJAX za pomocą funkcji fetch, za pomocą funkcji fetch wysyłamy zapytanie pod podany adres endpointu
+        .then(function(rawResponse){  //otrzymaną odpowiedź konwertujemy z JSONa na tablicę
+          return rawResponse.json();  
+        })
+        .then(function(parsedResponse){ //po otrzymaniu skonwertowanej odpowiedzi parsedResponse wyświetlamy ją w konsoli
+          console.log('parsedResponse', parsedResponse);
+
+          /*save parsedResponse as thisApp.data.products */
+          thisApp.data.products = parsedResponse;
+
+          /*execute initMenu method */
+          thisApp.initMenu();
+        });
+
+      console.log('thisApp.data', JSON.stringify(thisApp.data));
+    
     },
+
+   
 
     init: function()  {
       const thisApp = this;
       //console.log('*** App starting ***');
       
       thisApp.initData(); //Instancja dla każdego produktu (wykonanie metody initData)
-      thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
+      //thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
       thisApp.initCart(); //wywołanie metody
     }
     
