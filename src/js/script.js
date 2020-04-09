@@ -398,6 +398,8 @@
       for(let key of thisCart.renderTotalsKeys){
         thisCart.dom[key] = thisCart.dom.wrapper.querySelectorAll(select.cart[key]);
       }
+
+      thisCart.dom.form = element.querySelector(select.cart.form);
     }
 
     initActions(){ //metoda, ktora rozwija i zwija koszyk przy kliknięciu pokazując/ukrywając szczegóły koszyka
@@ -418,7 +420,42 @@
       thisCart.dom.productList.addEventListener('remove', function(){ //listener eventu remove
         thisCart.remove(event.detail.cartProduct);
       });
+
+      thisCart.dom.form.addEventListener('submit', function(event){ //słuchanie eventu 'submit'
+        
+        event.preventDefault(); //aby wysłanie formularza nie przeładowało strony
+
+        thisCart.sendOrder(); //wywołanie metody
+      });
     }
+    
+    //metoda sendOrder - w niej zdefiniowanie kilku stałych, które są potrzebne do wysłania zapytania do API
+    sendOrder() {
+      const thisCart = this;
+
+      const url = settings.db.url + '/' + settings.db.order;
+
+      const payload = { //payload-ładunek, dane, które będą wysyłane do serwera
+        address: 'test',
+        totalPrice: thisCart.totalPrice,
+      };
+
+      const options = { //opcje, które skonfigurują zapytanie
+        method: 'POST', //POST-wysyłanie nowych danych do API
+        headers: {      //ustawienie nagłówka, aby serwer wiedział, że wysyłam dane w postaci JSONa
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),    //body - treść którą wysyłam, użycie metody JSON.stringify, aby przekonwertować obiekt payload na ciąg znaków w formacie JSON
+      };
+
+      fetch(url, options)   //wysłanie zapytania do serwera 
+        .then(function(response){
+          return response.json();
+        }).then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse);
+        });
+    }
+  
 
     add(menuProduct){
       const thisCart = this;
