@@ -400,6 +400,8 @@
       }
 
       thisCart.dom.form = element.querySelector(select.cart.form);
+      thisCart.dom.phone = element.querySelector(select.cart.phone);  //dodanie właściwości dla inputów na numer telefonu
+      thisCart.dom.address = element.querySelector(select.cart.address);//dodanie właściwości dla inputów na adres
     }
 
     initActions(){ //metoda, ktora rozwija i zwija koszyk przy kliknięciu pokazując/ukrywając szczegóły koszyka
@@ -436,9 +438,20 @@
       const url = settings.db.url + '/' + settings.db.order;
 
       const payload = { //payload-ładunek, dane, które będą wysyłane do serwera
-        address: 'test',
         totalPrice: thisCart.totalPrice,
+        phone: thisCart.dom.phone,
+        address: thisCart.dom.address,
+        totalNumber: thisCart.totalNumber,
+        subtotalPrice: thisCart.subtotalPrice,
+        deliveryFee: thisCart.deliveryFee,
+        products: [],
       };
+
+      for (let product of thisCart.products) {
+        thisCart.getData();
+        payload.push(products);
+      }
+
 
       const options = { //opcje, które skonfigurują zapytanie
         method: 'POST', //POST-wysyłanie nowych danych do API
@@ -587,6 +600,18 @@
       });
     }
 
+
+    getData() { //metoda getData, która zwraca wszystkie informacje o zamawianym produkcie
+      const thisCartProduct = this;
+
+      return {
+        id: thisCartProduct.id,
+        amount: thisCartProduct.amount,
+        price: thisCartProduct.price,
+        priceSingle: thisCartProduct.priceSingle,
+        params: thisCartProduct.params,
+      };
+    }
   }
   //Koniec klasy CartProduct
 
