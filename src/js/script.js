@@ -400,8 +400,8 @@
       }
 
       thisCart.dom.form = element.querySelector(select.cart.form);
-      thisCart.dom.phone = element.querySelector(select.cart.phone);  //dodanie właściwości dla inputów na numer telefonu
-      thisCart.dom.address = element.querySelector(select.cart.address);//dodanie właściwości dla inputów na adres
+      thisCart.dom.phone = element.querySelector(select.cart.phone);  //znalezienie i dodanie do obiektu thisCart.dom
+      thisCart.dom.address = element.querySelector(select.cart.address); //-//-
     }
 
     initActions(){ //metoda, ktora rozwija i zwija koszyk przy kliknięciu pokazując/ukrywając szczegóły koszyka
@@ -448,8 +448,8 @@
       };
 
       for (let product of thisCart.products) {
-        thisCart.getData();
-        payload.push(products);
+                       
+        payload.products.push(product.getData());
       }
 
 
