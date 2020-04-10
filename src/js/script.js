@@ -544,7 +544,7 @@
 
       thisCartProduct.getElements(element); //wywołanie metody getElements i przekazanie jej argumentu element
       thisCartProduct.initAmountWidget(); //wykonanie metody initAmountWidget
-      thisCartProduct.initActions(); //wywołanie metody initAction
+      thisCartProduct.initAction(); //wywołanie metody initAction
 
       //console.log('new CartProduct', thisCartProduct);
       //console.log('productData', menuProduct);
@@ -580,14 +580,14 @@
       const event = new CustomEvent('remove', {
         bubbles: true,
         detail: {   //właściwość detail - można przekazać dowolne informacje do handlera eventu. W tym przypadku przekazuje odwołanie do tej instancji, dla której kliknięto guzik usuwania
-          cartproduct: thisCartProduct,
+          cartProduct: thisCartProduct,
         },
       });
       
       thisCartProduct.dom.wrapper.dispatchEvent(event);
     }
 
-    initActions(){
+    initAction(){
       const thisCartProduct = this;
       thisCartProduct.dom.edit.addEventListener('click', function(event){
         event.preventDefault();
