@@ -127,7 +127,7 @@ const app = {
   initBooking: function() {
     const thisApp = this;
     
-    widgetBooking = document.querySelector(select.containerOf.booking); //widgetBooking-kontener widgetu do rezerwacji stron
+    const widgetBooking = document.querySelector(select.containerOf.booking); //widgetBooking-kontener widgetu do rezerwacji stron
 
     thisApp.booking = new Booking(widgetBooking);
   },
