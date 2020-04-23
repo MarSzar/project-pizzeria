@@ -1,16 +1,15 @@
-import {select, templates} from './settings.js';
+import {select, templates} from '../settings.js';
 import AmountWidget from './AmountWidget.js';
 
 export class Booking {
   constructor(widgetBooking){
     const thisBooking = this;
-    this.widgetBooking = widgetBooking;
-
+    
     thisBooking.render(widgetBooking);
     thisBooking.initWidgets();
   }
 
-  render(){    
+  render(widgetBooking){    
     const thisBooking = this;
 
     /* generate HTML based on template */
@@ -19,9 +18,9 @@ export class Booking {
     /* create empty object */
     thisBooking.dom = {}; //w obiekcie thisBooking.dom będą przechowywane wszystkie elementy DOM
     
-    thisBooking.dom.wrapper = this.widgetBooking;    //zapisywanie do obiektu thisBooking.dom właściwość wrapper równą otrzymanemu argumentowi
+    thisBooking.dom.wrapper = widgetBooking;    //zapisywanie do obiektu thisBooking.dom właściwość wrapper równą otrzymanemu argumentowi
 
-    thisBooking.dom.wrapper = generatedHTML;    //zawartość wrapppera zamieniać na kod HTML wygenerowany z szablonu
+    thisBooking.dom.wrapper.innerHTML = generatedHTML;    //zawartość wrapppera zamieniać na kod HTML wygenerowany z szablonu
 
     thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);  //definicja właściwości thisCart.dom.peopleAmount, która znajduje w thisBooking.dom.wrapper pojedynczy element o selektorze zapisanym w select.booking.peopleAmount
     thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
