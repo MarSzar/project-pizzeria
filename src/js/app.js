@@ -98,7 +98,7 @@ const app = {
         return rawResponse.json();  
       })
       .then(function(parsedResponse){ //po otrzymaniu skonwertowanej odpowiedzi parsedResponse wyświetlamy ją w konsoli
-        console.log('parsedResponse', parsedResponse);
+        //console.log('parsedResponse', parsedResponse);
 
         /*save parsedResponse as thisApp.data.products */
         thisApp.data.products = parsedResponse;
@@ -107,7 +107,7 @@ const app = {
         thisApp.initMenu();
       });
 
-    console.log('thisApp.data', JSON.stringify(thisApp.data));
+    //console.log('thisApp.data', JSON.stringify(thisApp.data));
     
   },
   
