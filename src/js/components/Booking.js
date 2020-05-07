@@ -11,7 +11,9 @@ export class Booking {
     thisBooking.render(widgetBooking);
     thisBooking.initWidgets();
     thisBooking.getData();  //metoda getData będzie pobierać dane z API używając adresów z parametrami filtrującymi wyniki. Do tego potrzebne są trzy adresy
-  
+    thisBooking.tableSelection();
+    thisBooking.tableReservation();
+
     // console.log('thisBooking', thisBooking);
     // console.log('widgetBooking', widgetBooking);
   }
@@ -122,8 +124,91 @@ export class Booking {
     }
   }
 
+  tableSelection(){
+    const thisBooking = this;
+
+    //LOOP for every table
+    for (let table of thisBooking.dom.tables){
+
+      table.addEventListener('click', function(event){               //dodanie EventListener dla wybranego stolika
+        
+        event.preventDefault();
+        
+        for (let table of thisBooking.dom.tables){                   //sprawdzenie, czy stolik nie jest zarezerwowany
+          table.classList.remove(classNames.booking.newlyBooked);    //jeśli jest to usuń
+        }
+
+        if(!table.classList.contains(classNames.booking.tableBooked || classNames.booking.newlyBooked)){    //jeśli nie jest zajęty lub nie ma nowej rezerwacji to...
+
+          table.classList.add(classNames.booking.newlyBooked);                                              //dodaj rezerwację stolika
+
+          thisBooking.selectedTable = parseInt(table.getAttribute(settings.booking.tableIdAttribute));      //odczytanie wybranego numeru stolika i zamiana na liczbę
+          
+          console.log('Numer stolika:', thisBooking.selectedTable);
+        }
+
+        else{ //albo wyświetl, jeśli jest rezerwacja...
+          console.log('Stolik jest już zarezerwowany. Proszę wybrać inny stolik.');
+        }
+      });
+    //END LOOP for every table
+    }
+  }
+  
+  tableReservation(){
+    const thisBooking = this;
+
+    const button = thisBooking.dom.wrapper.querySelector(select.booking.submitBtn);
+
+    button.addEventListener('click', function(event){
+      
+      event.preventDefault();
+
+      thisBooking.reservation = {   //dane, które będą wysyłane do serwera
+        id: '',
+        date: thisBooking.datePicker.value,
+        hour: thisBooking.hourPicker.value,
+        table: thisBooking.selectedTable,
+        repeat: 'false',
+        duration: thisBooking.hoursAmount.value,
+        ppl: thisBooking.peopleAmount.value,
+        starters: [],
+      };
+
+      console.log('click, reservation', thisBooking.reservation);
+
+      thisBooking.makeBooked(thisBooking.datePicker.value, thisBooking.hourPicker.value, thisBooking.hoursAmount.value, thisBooking.selectedTable);
+
+      const options = { //opcje, które skonfigurują zapytanie
+        method: 'POST', //POST-wysyłanie nowych danych do API
+        headers: {       //ustawienie nagłówka, aby serwer wiedział, że wysyłam dane w postaci JSONa
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(thisBooking.reservation),    //body - treść którą wysyłam, użycie metody JSON.stringify, aby przekonwertować obiekt payload na ciąg znaków w formacie JSON
+      };
+
+      const url = settings.db.url + '/' + settings.db.booking;
+
+      fetch(url, options)   //wysłanie zapytania do serwera 
+        .then(function(response){
+          return response.json();
+        }).then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse);
+        });
+    });
+  }
+   
   updateDOM(){
     const thisBooking = this;
+
+    const currentDate = thisBooking.datePicker.value;
+    const currentHour = thisBooking.hourPicker.value;
+
+    if (thisBooking.date !== currentDate || thisBooking.hour !== currentHour) {
+      for (let table of thisBooking.dom.tables) {
+        table.classList.remove(classNames.booking.newlyBooked);
+      }
+    }
 
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
