@@ -34,6 +34,20 @@ const app = {
         /* run thisApp.activatePage with that id */
         thisApp.activatePage(id);
 
+        thisApp.cart = document.querySelector(select.containerOf.cart);
+        thisApp.nav = document.querySelector(select.containerOf.nav);
+        thisApp.carousel = document.querySelectorAll(select.containerOf.carousel);
+
+        if(id == select.containerOf.mainpage){
+          thisApp.cart.classList.add(classNames.cart.disabled);
+          thisApp.nav.classList.add(classNames.nav.disabled);
+        }
+
+        if(id != select.containerOf.mainpage){
+          thisApp.cart.classList.remove(classNames.cart.disabled);
+          thisApp.nav.classList.remove(classNames.nav.disabled);
+        }
+
         /* change URL hash */
         window.location.hash = '#/' + id;
       });
@@ -61,7 +75,6 @@ const app = {
       );
     }
   },
-
 
   initMenu: function() {
     const thisApp = this; //Instancja dla każdego produktu. Sprawdzenie, czy dane są gotowe do użycia. thisApp pobiera dane z pliku data.js
@@ -116,11 +129,9 @@ const app = {
     //console.log('*** App starting ***');
     
     thisApp.initPages();
-      
     thisApp.initData(); //Instancja dla każdego produktu (wykonanie metody initData)
     //thisApp.initMenu(); //Instancja dla każdego produktu (wykonanie metody initMenu)
     thisApp.initCart(); //wywołanie metody
-
     thisApp.initBooking();
   },
  

@@ -11,6 +11,9 @@ export const select = {
     cart: '#cart',
     pages: '#pages',
     booking: '.booking-wrapper',
+    nav: '.main-nav',
+    mainpage: 'home',
+    carousel: '.carousel-item',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -66,7 +69,7 @@ export const select = {
     submitBtn: '.booking-form .btn-secondary',
   },
   nav: {
-    links: '.main-nav a',
+    links: '.link a',
   },
 };
   
@@ -77,6 +80,7 @@ export const classNames = {
   },
   cart: {
     wrapperActive: 'active',
+    disabled: 'disabled',
   },
   booking: {
     loading: 'loading',
@@ -85,6 +89,7 @@ export const classNames = {
   },
   nav: {
     active: 'active',
+    disabled:'disabled',
   },
   pages: {
     active: 'active',

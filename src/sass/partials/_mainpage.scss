@@ -1,0 +1,163 @@
+.home{
+  background-color: white;
+  padding: 45px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  .image-left{
+    padding-right: 2px;
+  }
+  
+  .image-right{
+    padding-left: 2px;
+  }
+
+  .card.col-6.image-left{
+    height: 300px;
+  }
+
+  .card.col-6.image-right{
+    height: 300px;
+  }
+
+  img.card-img{
+    height: 300px;
+  }
+  
+  .mainpage{
+    padding-bottom: 30px;
+
+    img{
+      max-height: 120px;
+      width: 100%;
+      object-fit: cover;
+    }
+    
+    .card-title{
+      color: white;
+      transform: translateY(20px);
+    }
+    
+    .card-text{
+      color: white;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    
+    .card:hover .card-text{
+      opacity: 1;
+      transform: translateY(0px);
+      transition: transform 1s;
+    }
+    
+    .card:hover .card-title{
+      transform: translateY(10px);
+      transition: transform 1s;
+    }
+    
+    .opening-hours{
+      text-align: center;
+      background-color: $color-main;
+      padding: 30px;
+      margin-top: 4px;
+      border-radius: 2%;
+      max-height: 120px;
+      color: white;
+    }
+  }
+
+  .card.opening-hours {
+    background: #ff6b6b;
+  }
+
+  .opinion{
+    padding: 20px 0;
+    margin: 30px 0;
+
+    .carousel-indicators li{
+      width: 10px;
+      height: 10px;
+      border-radius: 100%;
+      background-color: black;
+    }
+      
+    .carousel-indicators{
+      bottom: -65px;
+    }
+      
+    .carousel-inner{
+      margin-bottom: 80px;
+    }
+      
+    img{
+      height: 200px;
+      object-fit: cover;
+    }
+      
+    .carousel-item{
+      min-height: 200px;
+    }
+      
+    .card{
+      border: none;
+    }
+  }
+
+  .gallery{
+    .row{
+      margin-top: 100px;
+    }
+      
+    .col-4{
+      padding: 4px;
+    }
+      
+    .card{
+      border: none;
+    }
+      
+    img{
+      height: 200px;
+      object-fit: cover;
+    }
+      
+    .card-img-overlay{
+      opacity: 0;
+      display: flex;
+      justify-content: center;
+    }
+      
+    ul{
+      display: flex;
+      align-items: center;
+      padding: 0;
+      margin-top: 20px;
+    }
+      
+    li{
+      list-style-type: none;
+      font-size: 25px;
+    }
+      
+    i{
+      padding: 0 15px;
+      color: white;
+      font-size: 35px;
+    }
+      
+    .card-img-overlay:hover{
+      background-color: black;
+      opacity: 0.7;
+    }
+      
+    i:hover{
+      color: $color-main;
+    }
+  }
+    
+  .instagram {
+    padding: 20px 4px;
+    color: $color-main;
+    text-decoration: underline;
+  }
+}
